@@ -1,0 +1,5 @@
+const cooktails = [
+    {
+        strDrinkThumb: String
+    }
+];
