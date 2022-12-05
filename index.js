@@ -28,6 +28,7 @@ request.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita'
 app.get("/products", async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const products = await Product.find({});
     products.map(product => product._doc);
     
@@ -35,7 +36,8 @@ app.get("/products", async (req, res) => {
     let index = 0;
     products.map(product => {product.image=images.at(index); index++;});
     console.log(products);
-    return products;
+    res.json(products);
+    res.end();
 });
 
 
