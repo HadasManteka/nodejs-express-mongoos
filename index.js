@@ -3,15 +3,39 @@ const app = express();
 const port = process.env.PORT;
 const DB = require("./controller/database");
 const Product = require("./models/product");
+// const axios = require('axios');
+const { header } = require("express/lib/request");
+// const https = require('https');
+const request = require('request');
 
 //  MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+let images = [];
+
+// Get cooktails images
+request.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita', function (error, response, body) {
+    JSON.parse(body).drinks.map(drink=>{
+        images.push(drink.strDrinkThumb);
+    });
+})
+.on("error", function(err) {
+    console.log('Error from the cocktaildb API: ' + err);
+});
+
 // Get products
-app.post("/products", async (req, res) => {
+app.get("/products", async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     const products = await Product.find({});
+    products.map(product => product._doc);
+    
+    // Attach photo to data
+    let index = 0;
+    products.map(product => {product.image=images.at(index); index++;});
     console.log(products);
+    return products;
 });
 
 
