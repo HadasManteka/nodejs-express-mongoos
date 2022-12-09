@@ -11,7 +11,7 @@ const cartSchema = new mongoose.Schema({
         type: Number, required: true
     },
     products:{
-        type: [String, String]
+        type: [{id: String, name: String}]
     }
 });
 
