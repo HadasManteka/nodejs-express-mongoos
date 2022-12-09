@@ -56,6 +56,14 @@ app.post("/product", (req, res) => {
 // Cart mutations
 
 app.post("/sendCart", (req, res) => {
+    let newCart = new Cart(req.body);
+    newCart.save()
+    .then(cart => {
+        res.send("cart saved!");
+    })
+    .catch(err => {
+        res.status(400).send("unable to save to database");
+    })
 });
 
 app.listen(5000, () => console.log(`SERVER listening on port ${5000}!`));
