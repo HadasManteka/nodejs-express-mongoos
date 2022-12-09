@@ -4,6 +4,7 @@ const port = process.env.PORT;
 const DB = require("./controller/database");
 const Product = require("./models/product");
 // const axios = require('axios');
+const Cart = require("./models/cart");
 const { header } = require("express/lib/request");
 // const https = require('https');
 const request = require('request');
@@ -50,6 +51,11 @@ app.post("/product", (req, res) => {
 //       "Content-Type": "application/json",
 //     });
 //   });
+});
+
+// Cart mutations
+
+app.post("/sendCart", (req, res) => {
 });
 
 app.listen(5000, () => console.log(`SERVER listening on port ${5000}!`));
