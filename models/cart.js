@@ -4,7 +4,7 @@ const cartSchema = new mongoose.Schema({
     firstName: {
         type: String, required: true
     },
-    surName:{
+    lastName:{
         type: String, required: true
     },
     totalPrice:{ 
