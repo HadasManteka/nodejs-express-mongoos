@@ -3,14 +3,16 @@ const app = express();
 const port = process.env.PORT;
 const DB = require("./controller/database");
 const Product = require("./models/product");
-// const axios = require('axios');
+const Cart = require("./models/cart");
 const { header } = require("express/lib/request");
-// const https = require('https');
 const request = require('request');
+const cors = require('cors');
 
 //  MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 let images = [];
 
@@ -28,26 +30,27 @@ request.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita'
 app.get("/products", async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const products = await Product.find({});
     products.map(product => product._doc);
     
     // Attach photo to data
     let index = 0;
     products.map(product => {product.image=images.at(index); index++;});
-    console.log(products);
-    return products;
+    res.json(products);
+    res.end();
 });
 
-
-//  Save products
-app.post("/product", (req, res) => {
-//   let newProduct = new Product(req.body);
-
-//   newProduct.save((err, data) => {
-//     res.header({
-//       "Content-Type": "application/json",
-//     });
-//   });
+// Cart mutations
+app.post("/sendCart", (req, res) => {
+    let newCart = new Cart(req.body);
+    newCart.save()
+    .then(cart => {
+        res.send("cart saved!");
+    }) 
+    .catch(err => {
+        res.status(400).send("unable to save to database");
+    })
 });
 
 app.listen(5000, () => console.log(`SERVER listening on port ${5000}!`));
