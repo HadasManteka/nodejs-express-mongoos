@@ -8,10 +8,13 @@ const Cart = require("./models/cart");
 const { header } = require("express/lib/request");
 // const https = require('https');
 const request = require('request');
+const cors = require('cors');
 
 //  MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 let images = [];
 
@@ -60,7 +63,7 @@ app.post("/sendCart", (req, res) => {
     newCart.save()
     .then(cart => {
         res.send("cart saved!");
-    })
+    }) 
     .catch(err => {
         res.status(400).send("unable to save to database");
     })
