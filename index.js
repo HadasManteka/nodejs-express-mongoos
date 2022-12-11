@@ -3,10 +3,8 @@ const app = express();
 const port = process.env.PORT;
 const DB = require("./controller/database");
 const Product = require("./models/product");
-// const axios = require('axios');
 const Cart = require("./models/cart");
 const { header } = require("express/lib/request");
-// const https = require('https');
 const request = require('request');
 const cors = require('cors');
 
@@ -44,7 +42,6 @@ app.get("/products", async (req, res) => {
 });
 
 // Cart mutations
-
 app.post("/sendCart", (req, res) => {
     let newCart = new Cart(req.body);
     newCart.save()
