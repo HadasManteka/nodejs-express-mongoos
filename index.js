@@ -39,21 +39,8 @@ app.get("/products", async (req, res) => {
     // Attach photo to data
     let index = 0;
     products.map(product => {product.image=images.at(index); index++;});
-    console.log(products);
     res.json(products);
     res.end();
-});
-
-
-//  Save products
-app.post("/product", (req, res) => {
-//   let newProduct = new Product(req.body);
-
-//   newProduct.save((err, data) => {
-//     res.header({
-//       "Content-Type": "application/json",
-//     });
-//   });
 });
 
 // Cart mutations
